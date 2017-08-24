@@ -15,20 +15,21 @@ public abstract class MyCollection<T> {
 			array[index] = e;
 			this.index++;
 		} else {
-			increaseArraySize();
+			ensureCapacity(index + 1);
 			array[index] = e;
 			this.index++;
 		}
 		return true;
 	}
 
-	private void increaseArraySize() {
-
-		Object[] newArray = new Object[index + 1];
-		for (int i = 0; i < array.length; i++) {
-			newArray[i] = array[i];
+	public void ensureCapacity(int n) {
+		if (n > array.length) {
+			Object[] newArray = new Object[n];
+			for (int i = 0; i < array.length; i++) {
+				newArray[i] = array[i];
+			}
+			this.array = newArray;
 		}
-		this.array = newArray;
 	}
 
 	@SuppressWarnings({ "unchecked" })
@@ -60,47 +61,46 @@ public abstract class MyCollection<T> {
 		return false;
 	}
 
-	private void removeItem(int i) {
+	protected void removeItem(int i) {
 		int numMoved = index - i - 1;
 		if (numMoved > 0)
 			System.arraycopy(array, i + 1, array, i, numMoved);
 		array[--index] = null;
 	}
-	
-	public T remove(int n){
+
+	public T remove(int n) {
 		checkRange(n);
 		T e = get(n);
 		removeItem(n);
 		return e;
 	}
-	
-	private void checkRange(int n) {
-		if(n>=index || index < 0){
-			throw new IndexOutOfBoundsException("Index out of bound"+n);
+
+	protected void checkRange(int n) {
+		if (n >= index || index < 0) {
+			throw new IndexOutOfBoundsException("Index out of bound" + n);
 		}
-		
+
 	}
 
-	public boolean isEmpty(){
+	public boolean isEmpty() {
 		return index > 0;
 	}
-	
-	public void clear(){
-		for(int i=0; i<array.length;i++){
-			array[i]=null;
+
+	public void clear() {
+		for (int i = 0; i < array.length; i++) {
+			array[i] = null;
 		}
-		index=0;
+		index = 0;
 	}
-	
-	
-	public boolean contains(Object o){
-		return indexOf(o)>=0;
+
+	public boolean contains(Object o) {
+		return indexOf(o) >= 0;
 	}
 
 	public int indexOf(Object o) {
 		if (o == null) {
 			for (int i = 0; i < array.length; i++) {
-				if (array[i] == null) {	
+				if (array[i] == null) {
 					return i;
 				}
 			}
@@ -113,9 +113,9 @@ public abstract class MyCollection<T> {
 		}
 		return -1;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public T set(int n, Object o){
+	public T set(int n, Object o) {
 		checkRange(n);
 		Object oldObject = array[n];
 		array[n] = o;
