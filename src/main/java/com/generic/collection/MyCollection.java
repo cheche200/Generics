@@ -99,13 +99,13 @@ public abstract class MyCollection<T> {
 
 	public int indexOf(Object o) {
 		if (o == null) {
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < index; i++) {
 				if (array[i] == null) {
 					return i;
 				}
 			}
 		} else {
-			for (int i = 0; i < array.length; i++) {
+			for (int i = 0; i < index; i++) {
 				if (array[i].equals(o)) {
 					return i;
 				}
